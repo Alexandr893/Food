@@ -102,19 +102,19 @@ modalCloseBtn = document.querySelector('[data-close]');
 // мы не можем напрямую повесить методы класслист и тд.. к ним нужно обратиться перебором их же несколько темболее
 
 modalTrigger.forEach(btn =>{
-    btn.addEventListener('click',()=>{
-        modal.classList.toggle('show');
-        document.body.style.overflow = 'hidden';
-      
-      });
-});
+    btn.addEventListener('click',(openModal))});
 
 function closeModal(){
     modal.classList.toggle('show');
     document.body.style.overflow = '';
 }
 
-          modalCloseBtn.addEventListener('click',(closeModal));
+function openModal(){
+    modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+}
+
+modalCloseBtn.addEventListener('click',(closeModal));
 
 
         modal.addEventListener('click',(e)=>{
@@ -123,5 +123,10 @@ function closeModal(){
             }
         });
 
+    //modal inervav
+    const modalTimer = setTimeout(openModal,2000);
+
+
 
 });
+
