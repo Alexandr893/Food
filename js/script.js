@@ -197,5 +197,92 @@ modalCloseBtn.addEventListener('click',(closeModal));
 'menu__item'
     ).render();
 
+        // Forms
+
+        const forms = document.querySelectorAll('form');
+        const messages = {
+            loading:'загрузка',
+            success:'Спасибо',
+            failure:'Что-то пошло не так',
+
+
+        };
+
+        forms.forEach(item=>{
+            postData(item);
+        });
+
+        function postData(form){
+            form.addEventListener('submit',(e)=>{
+                e.preventDefault();
+
+                const statusMessage=document.createElement('div');
+                statusMessage.classList.add('status');
+                statusMessage.textContent = messages.loading;
+                form.append(statusMessage);
+
+
+          
+                // заголовки 
+                
+                const formData = new FormData(form);
+                
+                // получаем обычный объект
+                const object ={};
+                formData.forEach(function(value,key){
+                    object[key] = value;
+                });
+            
+
+                fetch('server.php',{
+                    method:'POST',
+                    header:{
+                        'Content-type': 'application/json'
+                    },
+                    body:JSON.stringify(object)
+                    
+            
+                  }).then(data => data.text())
+                  .then(data => {
+                        console.log(data);
+                        statusMessage.textContent = messages.success;
+                        
+                        setTimeout(() => {
+                            statusMessage.remove();
+                        },2000);
+                  }).catch(()=>{
+
+                    statusMessage.textContent = messages.failure;
+// finally идет независимо от resolve и reject
+                  }).finally(()=>{
+                    form.reset();
+                  });
+
+                  
+
+              
+
+                // проверка соединения 
+                // request.addEventListener('load',()=>{
+                //     if(request.status === 200){
+                //         console.log(request.response);
+                //         statusMessage.textContent = messages.success;
+                //         form.reset();
+                //         setTimeout(() => {
+                //             statusMessage.remove();
+                //         },2000);
+                //     } else{
+                //         statusMessage.textContent = messages.failure;
+                //     }
+
+
+                // });
+            });
+        }
+        
+
+
+
+
 });
 
